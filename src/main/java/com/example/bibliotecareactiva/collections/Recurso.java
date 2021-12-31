@@ -16,18 +16,6 @@ public class Recurso {
     private boolean disponible = false;
     private LocalDate fecha = null;
 
-    public Recurso() {
-    }
-
-    public Recurso(String id, String titulo, String tipo, String area, boolean disponible, LocalDate fecha) {
-        this.id = id;
-        this.titulo = titulo;
-        this.tipo = tipo;
-        this.area = area;
-        this.disponible = disponible;
-        this.fecha = fecha;
-    }
-
     public String getId() {
         return id;
     }

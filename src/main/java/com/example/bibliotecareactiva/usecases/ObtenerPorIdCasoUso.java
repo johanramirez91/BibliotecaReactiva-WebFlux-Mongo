@@ -10,21 +10,20 @@ import reactor.core.publisher.Mono;
 
 @Service
 @Validated
-public class AgregarRecursoCasoUso implements AgregarRecurso{
+public class ObtenerPorIdCasoUso implements ObtenerPorId {
 
     private final RepositorioRecurso repositorioRecurso;
     private final RecursoMapper mapper;
 
     @Autowired
-    public AgregarRecursoCasoUso(RepositorioRecurso repositorioRecurso, RecursoMapper mapper) {
+    public ObtenerPorIdCasoUso(RepositorioRecurso repositorioRecurso, RecursoMapper mapper) {
         this.repositorioRecurso = repositorioRecurso;
         this.mapper = mapper;
     }
 
     @Override
-    public Mono<RecursoDTO> apply(RecursoDTO recursoDTO) {
-        return repositorioRecurso
-                .save(mapper.mapperToDato().apply(recursoDTO))
-                .map(recurso -> mapper.mapDatoToDTO().apply(recurso));
+    public Mono<RecursoDTO> get(String id) {
+        return repositorioRecurso.findById(id)
+                .map(mapper.mapDatoToDTO());
     }
 }

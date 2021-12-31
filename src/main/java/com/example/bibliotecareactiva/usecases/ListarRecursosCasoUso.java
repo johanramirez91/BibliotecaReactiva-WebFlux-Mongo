@@ -6,25 +6,25 @@ import com.example.bibliotecareactiva.repositories.RepositorioRecurso;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
-import reactor.core.publisher.Mono;
+import reactor.core.publisher.Flux;
+
+import java.util.function.Supplier;
 
 @Service
 @Validated
-public class AgregarRecursoCasoUso implements AgregarRecurso{
+public class ListarRecursosCasoUso implements Supplier<Flux<RecursoDTO>> {
 
     private final RepositorioRecurso repositorioRecurso;
     private final RecursoMapper mapper;
 
     @Autowired
-    public AgregarRecursoCasoUso(RepositorioRecurso repositorioRecurso, RecursoMapper mapper) {
+    public ListarRecursosCasoUso(RepositorioRecurso repositorioRecurso, RecursoMapper mapper) {
         this.repositorioRecurso = repositorioRecurso;
         this.mapper = mapper;
     }
 
     @Override
-    public Mono<RecursoDTO> apply(RecursoDTO recursoDTO) {
-        return repositorioRecurso
-                .save(mapper.mapperToDato().apply(recursoDTO))
-                .map(recurso -> mapper.mapDatoToDTO().apply(recurso));
+    public Flux<RecursoDTO> get() {
+        return repositorioRecurso.findAll().map(mapper.mapDatoToDTO());
     }
 }

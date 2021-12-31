@@ -6,28 +6,28 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import reactor.core.publisher.Mono;
 
-import java.util.Objects;
+import java.time.LocalDate;
 
 @Service
 @Validated
-public class DisponibilidadRecursoCasoUso implements Diponibilidad{
+public class PrestarRecursoCasoUso implements Diponibilidad {
 
     private final RepositorioRecurso repositorioRecurso;
 
-    public DisponibilidadRecursoCasoUso(RepositorioRecurso repositorioRecurso) {
+    public PrestarRecursoCasoUso(RepositorioRecurso repositorioRecurso) {
         this.repositorioRecurso = repositorioRecurso;
     }
 
     @Override
     public Mono<String> apply(String id) {
-        if (Objects.isNull(id)){
-            return Mono.empty();
-        }
         Mono<Recurso> recursoMono = repositorioRecurso.findById(id);
-        return recursoMono.map(recurso ->
-                recurso.isDisponible() ?
-                        "Recurso disponible"
-                        :
-                        "Recurso no disponible, fue prestado el: " + recurso.getFecha());
+        return recursoMono.flatMap(recurso -> {
+            if (recurso.isDisponible()){
+                recurso.setFecha(LocalDate.now());
+                recurso.setDisponible(false);
+                return repositorioRecurso.save(recurso).thenReturn("Recurso prestado exitosamente");
+            }
+            return Mono.just("El recurso no está disponible");
+        });
     }
 }
