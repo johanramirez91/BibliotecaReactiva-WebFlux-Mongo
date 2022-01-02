@@ -1,0 +1,17 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+participant bibliotecario as user
+boundary InterfazUsuario as ui
+
+user -> ui: Petición borrar recurso
+ui -->API: Redirección API
+
+database Mongo as db
+API --> db: Consulta recurso y borra
+db --> API: Respuesta HTTP
+API --> ui: Envia mensaje
+ui --> user: Recibe mensaje
+
+@enduml

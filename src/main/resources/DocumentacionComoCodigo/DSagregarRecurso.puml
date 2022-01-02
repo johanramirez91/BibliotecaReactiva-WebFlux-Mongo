@@ -1,0 +1,16 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+autonumber
+
+participant bibliotecario as user
+boundary InterfazUsuario as ui
+
+user -> ui: Petición agregar recurso
+ui -->API: Redirección API
+
+database Mongo as db
+API --> db: Crear recurso
+db --> API: Respuesta HTTP
+API --> ui: Envia mensaje
+ui --> user: Recibe mensaje
+@enduml

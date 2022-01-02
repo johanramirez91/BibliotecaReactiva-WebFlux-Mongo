@@ -1,0 +1,34 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+left to right direction
+title "Casos de uso"
+actor :Bibliotecario: as user
+skinparam actorStyle awesome
+package ApiBiblioteca{
+usecase "Actualizar Recurso" as uc1
+usecase "Disponibilidad de Recurso" as uc2
+usecase "Agregar Recurso" as uc3
+usecase "Regresar recurso" as uc4
+usecase "Borrar Recurso" as uc5
+usecase "Consultar Recurso por Id" as uc6
+usecase "Listar Recursos" as uc7
+usecase "Prestar Resursos" as uc8
+usecase "Recomendar por area temática" as uc9
+usecase "Recomendar por tipo" as uc10
+usecase "Recomendar por area tematica y tipo" as uc11
+}
+
+user --> uc1
+user --> uc2
+user --> uc3
+user --> uc4
+user --> uc5
+user --> uc6
+user --> uc7
+user --> uc8
+user --> uc9
+user --> uc10
+user --> uc11
+
+@enduml
